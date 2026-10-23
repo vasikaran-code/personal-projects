@@ -1,7 +1,7 @@
 import { MapPin, Briefcase, GraduationCap } from 'lucide-react';
 import Section from '../ui/Section';
 import { personalInfo } from '../../data/portfolio';
-import profile from '../../assets/shared image.jpeg'
+import profile from '../../assets/profile.webp'
 
 export default function About() {
   return (
@@ -18,25 +18,25 @@ export default function About() {
             ))}
           </div>
 
-          <div className="mt-8 flex flex-wrap gap-4">
-            <div className="flex items-center gap-2 text-gray-600">
-              <MapPin size={18} className="text-primary-600" />
-              <span>{personalInfo.location}</span>
+          <div className="mt-8 grid sm:grid-cols-3 gap-4">
+            <div className="flex items-center gap-3 p-4 rounded-lg bg-primary-50 border border-primary-100">
+              <MapPin size={20} className="text-primary-600 flex-shrink-0" />
+              <span className="text-sm font-medium text-gray-700">{personalInfo.location}</span>
             </div>
-            <div className="flex items-center gap-2 text-gray-600">
-              <Briefcase size={18} className="text-primary-600" />
-              <span>Open to Work</span>
+            <div className="flex items-center gap-3 p-4 rounded-lg bg-emerald-50 border border-emerald-100">
+              <Briefcase size={20} className="text-emerald-600 flex-shrink-0" />
+              <span className="text-sm font-medium text-gray-700">Open to Work</span>
             </div>
-            <div className="flex items-center gap-2 text-gray-600">
-              <GraduationCap size={18} className="text-primary-600" />
-              <span>BE Graduate</span>
+            <div className="flex items-center gap-3 p-4 rounded-lg bg-amber-50 border border-amber-100">
+              <GraduationCap size={20} className="text-amber-600 flex-shrink-0" />
+              <span className="text-sm font-medium text-gray-700">BE Graduate</span>
             </div>
           </div>
         </div>
 
         <div className="order-1 md:order-2 flex justify-center">
           <div className="relative">
-            <div className="w-64 h-64 sm:w-80 sm:h-80 rounded-2xl shadow-xl overflow-hidden">
+            <div className="w-64 sm:w-80 aspect-[2/3] rounded-2xl shadow-xl overflow-hidden">
               <img
                 src={profile}
                 alt={personalInfo.name}
@@ -44,7 +44,7 @@ export default function About() {
               />
             </div>
             <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-primary-200 rounded-xl -z-10"></div>
-            <div className="absolute -top-4 -left-4 w-16 h-16 bg-primary-100 rounded-lg -z-10"></div>
+            <div className="absolute -top-4 -left-4 w-16 h-16 bg-amber-200 rounded-lg -z-10"></div>
           </div>
         </div>
       </div>

@@ -1,23 +1,19 @@
-import image from '../assets/std_registration.webp'
-import image2 from '../assets/online-application-form-modish-registration_31965-46229.avif'
-
 export const personalInfo = {
   name: "Vasikaran K",
-  role: "Junior Software Developer",
+  role: "Full Stack Developer & AI Engineer",
   tagline: "Building scalable web applications with modern technologies",
   email: "vasikarankalaiyarasan@gmail.com",
   linkedin: "https://www.linkedin.com/in/vasikaran-k/",
   github: "https://github.com/vasikaran-code",
   location: "Thanjavur, TamilNadu",
-  resumeUrl: "/resume.pdf",
-  about: `Junior Software Developer with 2 years of hands-on experience in React.js, TypeScript, and Python (FastAPI), specializing in building scalable web applications and APIs. Proficient in developing modern user interfaces, RESTful and GraphQL services, and working with cloud technologies such as AWS Lambda and DynamoDB.
+  resumeUrl: "/Vasikaran_K.pdf",
+  about: `Full Stack Developer and AI Engineer with 2 years of hands-on experience in React.js, TypeScript, and Python (FastAPI), specializing in building scalable web applications and APIs. Proficient in developing modern user interfaces, RESTful and GraphQL services, and working with cloud technologies such as AWS Lambda and DynamoDB.
 
 A fast learner and proactive team player, committed to delivering clean, reliable, and high-quality software solutions.`,
 };
 
 export interface Skill {
   name: string;
-  level: number;
 }
 
 export interface SkillCategory {
@@ -29,52 +25,56 @@ export const skills: SkillCategory[] = [
   {
     category: "Frontend",
     skills: [
-      { name: "React.js", level: 90 },
-      { name: "TypeScript", level: 85 },
-      { name: "Redux-Saga", level: 75 },
-      { name: "HTML/CSS", level: 85 },
-      { name: "Material UI", level: 80 },
-      { name: "Bootstrap", level: 80 },
+      { name: "React.js" },
+      { name: "TypeScript" },
+      { name: "Redux-Saga" },
+      { name: "HTML/CSS" },
+      { name: "Material UI" },
+      { name: "Bootstrap" },
     ],
   },
   {
     category: "Backend",
     skills: [
-      { name: "Python (FastAPI)", level: 85 },
-      { name: "Java (Spring Core)", level: 70 },
-      { name: "Hibernate", level: 70 },
-      { name: "GraphQL (Strawberry)", level: 75 },
-      { name: "PostgreSQL", level: 85 },
-      { name: "DynamoDB", level: 80 },
-      // { name: "Nest.js", level: 75 },
+      { name: "Python (FastAPI)" },
+      { name: "Java (Spring Core)" },
+      { name: "Hibernate" },
+      { name: "GraphQL (Strawberry)" },
+      { name: "PostgreSQL" },
+      { name: "DynamoDB" },
+      // { name: "Nest.js" },
     ],
   },
   // {
   //   category: "Databases",
   //   skills: [
-  //     { name: "PostgreSQL", level: 85 },
-  //     { name: "MySQL", level: 80 },
-  //     { name: "DynamoDB", level: 80 },
+  //     { name: "PostgreSQL" },
+  //     { name: "MySQL" },
+  //     { name: "DynamoDB" },
   //   ],
   // },
   {
     category: "DevOps & Tools",
     skills: [
-      { name: "Git / GitHub", level: 85 },
-      { name: "AWS Lambda", level: 80 },
-      { name: "AWS Amplify", level: 75 },
-      { name: "S3 / CloudWatch", level: 75 },
-      { name: "CI/CD", level: 75 },
-      { name: "Linux", level: 85 },
+      { name: "Git / GitHub" },
+      { name: "AWS Lambda" },
+      { name: "AWS Amplify" },
+      { name: "S3 / CloudWatch" },
+      { name: "CI/CD" },
+      { name: "Linux" },
     ],
+  },
+  {
+    category: "AI Tools",
+    skills: [{ name: "Claude" }, { name: "Cursor" }],
   },
   // {
   //   category: "Tools",
   //   skills: [
-  //     { name: "Git / GitHub", level: 85 },
-  //     { name: "VS Code", level: 90 },
-  //     { name: "Postman", level: 85 },
-  //     { name: "Eclipse J2EE", level: 70 },
+  //     { name: "Git / GitHub" },
+  //     { name: "VS Code" },
+  //     { name: "Postman" },
+  //     { name: "Eclipse J2EE" },
   //   ],
   // },
 ];
@@ -96,7 +96,7 @@ export const projects: Project[] = [
     title: "Customer Support & Product Management Platform",
     description:
       "Architected and built a multi-business customer support system from concept to production, utilizing an event-driven, serverless backend with FastAPI, AWS Lambda, API Gateway, and DynamoDB. Engineered a responsive React/TypeScript UI with seamless workflow and real-time updates, significantly enhancing agent efficiency.",
-    image: "https://images.unsplash.com/photo-1553877522-43269d4ea984?w=600&h=400&fit=crop",
+    image: "https://images.unsplash.com/photo-1626863905121-3b0c0ed7b94c?w=600&h=400&fit=crop",
     techStack: ["React", "TypeScript", "FastAPI", "AWS Lambda", "DynamoDB", "API Gateway"],
     githubUrl: "#",
     liveUrl: "#",
@@ -107,7 +107,7 @@ export const projects: Project[] = [
     title: "Pharmaceutical (CLM) Application",
     description:
       "Spearheaded the development of a Closed Loop Marketing (CLM) platform, designing responsive React/TypeScript interfaces that improved user engagement by approximately 30%. Implemented robust FastAPI backend services for secure content delivery and analytics tracking. Optimized PostgreSQL database queries, improving data retrieval speed by 40%, handling over 1 million records daily.",
-    image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=600&h=400&fit=crop",
+    image: "https://images.unsplash.com/photo-1758691463203-cce9d415b2b5?w=600&h=400&fit=crop",
     techStack: ["React", "TypeScript", "FastAPI", "PostgreSQL"],
     githubUrl: "#",
     liveUrl: "#",
@@ -118,10 +118,21 @@ export const projects: Project[] = [
     title: "Student Registration Application (Natyakala)",
     description:
       "Built a complete student registration system using Nest.js and React.js, integrating secure validation workflows for efficient student onboarding. Integrated MongoDB for seamless data storage, reducing initial application load times by 20% and ensuring fast query performance. Collaborated with cross-functional teams to implement robust booking and management features.",
-    image: image2,
+    image: "https://images.unsplash.com/photo-1781038507661-06501ddcdc90?w=600&h=400&fit=crop",
     techStack: ["Nest.js", "React.js", "REST API", "MongoDB"],
     githubUrl: "#",
     liveUrl: "#",
+    featured: true,
+  },
+  {
+    id: 4,
+    title: "GI Marketplace (ArtisanLane)",
+    description:
+      "Built a multi-vendor marketplace for Geographical Indication (GI) tagged products, connecting customers directly with regional artisans. Implemented role-based access for three user types: Admin (platform oversight, merchant and product management), Merchant (store setup, product listings and order handling), and Customer (browsing, product discovery and purchasing). Developed a responsive React storefront showcasing authentic handcrafted goods from across India.",
+    image: "https://images.unsplash.com/photo-1762173886363-de541417e48e?w=600&h=400&fit=crop",
+    techStack: ["React", "React Native", "FastAPI", "GraphQL", "AWS Lambda", "DynamoDB", "Stripe"],
+    githubUrl: "#",
+    liveUrl: "https://artisanlane.in/products",
     featured: true,
   },
 ];
@@ -140,8 +151,22 @@ export const experiences: Experience[] = [
   {
     id: 1,
     company: "Inforios Software Technologies",
+    role: "Full Stack Developer & AI Engineer",
+    duration: "Sept 2025 - Present",
+    location: "On-site",
+    description: [
+      "Develop full stack features end to end, from React and TypeScript interfaces to FastAPI services and AWS deployments",
+      "Design and build AI-powered features by integrating large language model APIs such as Claude into web applications",
+      "Use AI-assisted development tools including Claude and Cursor for faster coding, refactoring, debugging and code review",
+      "Work with product and engineering teams to turn requirements into production-ready features",
+    ],
+    techUsed: ["React.js", "TypeScript", "Python", "FastAPI", "AWS", "Claude", "Cursor"],
+  },
+  {
+    id: 2,
+    company: "Inforios Software Technologies",
     role: "Junior Software Developer",
-    duration: "Sept 2024 - Present",
+    duration: "Sept 2024 - Aug 2025",
     location: "On-site",
     description: [
       "Developed and maintained APIs for the organization, ensuring optimal performance and security",
@@ -152,7 +177,7 @@ export const experiences: Experience[] = [
     techUsed: ["React.js", "Python", "FastAPI", "AWS", "DynamoDB"],
   },
   {
-    id: 2,
+    id: 3,
     company: "Inforios Software Technologies",
     role: "Trainee",
     duration: "March - Sept 2024",
@@ -165,7 +190,7 @@ export const experiences: Experience[] = [
     techUsed: ["Nest.js", "React.js", "REST API", "PostgreSQL", "JavaScript"],
   },
   {
-    id: 3,
+    id: 4,
     company: "Shiash Info Solutions Private Limited",
     role: "Intern",
     duration: "Feb - April 2023",

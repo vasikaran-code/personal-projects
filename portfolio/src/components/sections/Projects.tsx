@@ -10,12 +10,17 @@ export default function Projects() {
       id="projects"
       title="Featured Projects"
       subtitle="Some of my recent work"
+      tone="slate"
+      wide
     >
-      <div className="grid md:grid-cols-2 gap-8">
+      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {projects.map((project) => (
-          <Card key={project.id}>
+          <Card key={project.id} className="border-t-4 border-t-primary-600">
             <CardImage src={project.image} alt={project.title} />
             <CardContent>
+              <span className="block text-sm font-mono font-semibold text-amber-600 mb-2">
+                {String(project.id).padStart(2, '0')}
+              </span>
               <div className="flex items-start justify-between gap-4 mb-3">
                 <CardTitle>{project.title}</CardTitle>
                 <div className="flex gap-2 flex-shrink-0">

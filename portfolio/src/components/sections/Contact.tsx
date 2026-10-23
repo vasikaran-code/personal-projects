@@ -9,7 +9,7 @@ export default function Contact() {
       id="contact"
       title="Get In Touch"
       subtitle="I'd love to hear from you"
-      dark
+      tone="dark"
     >
       <div className="max-w-4xl mx-auto">
         <div className="grid md:grid-cols-2 gap-12">

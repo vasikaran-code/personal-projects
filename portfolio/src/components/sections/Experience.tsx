@@ -9,9 +9,10 @@ export default function Experience() {
       id="experience"
       title="Experience"
       subtitle="My professional journey"
+      tone="indigo"
     >
       <div className="relative">
-        <div className="absolute left-0 md:left-1/2 top-0 bottom-0 w-px bg-gray-200 transform md:-translate-x-1/2"></div>
+        <div className="absolute left-0 md:left-1/2 top-0 bottom-0 w-0.5 bg-primary-200 transform md:-translate-x-1/2"></div>
 
         <div className="space-y-12">
           {experiences.map((exp, index) => (
@@ -21,7 +22,7 @@ export default function Experience() {
                 index % 2 === 0 ? 'md:flex-row-reverse' : ''
               }`}
             >
-              <div className="absolute left-0 md:left-1/2 top-0 w-4 h-4 bg-primary-600 rounded-full border-4 border-white shadow transform -translate-x-1/2 md:-translate-x-1/2"></div>
+              <div className="absolute left-0 md:left-1/2 top-0 w-4 h-4 bg-primary-600 rounded-full border-4 border-primary-200 shadow transform -translate-x-1/2 md:-translate-x-1/2"></div>
 
               <div className="flex-1 md:w-1/2"></div>
 
@@ -30,7 +31,7 @@ export default function Experience() {
                   index % 2 === 0 ? 'md:pr-12' : 'md:pl-12'
                 }`}
               >
-                <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+                <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 border-l-4 border-l-primary-600 hover:shadow-md transition-shadow">
                   <div className="flex items-center gap-3 text-primary-600 mb-3">
                     <Building2 size={20} />
                     <span className="font-semibold">{exp.company}</span>
@@ -52,7 +53,7 @@ export default function Experience() {
                   <ul className="space-y-2 mb-4">
                     {exp.description.map((item, i) => (
                       <li key={i} className="text-gray-600 flex items-start gap-2">
-                        <span className="text-primary-500 mt-1.5">•</span>
+                        <span className="text-amber-500 mt-1.5">•</span>
                         {item}
                       </li>
                     ))}

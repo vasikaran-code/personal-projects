@@ -1,4 +1,4 @@
-import { Github, Linkedin, Mail, Heart } from 'lucide-react';
+import { Github, Linkedin, Mail } from 'lucide-react';
 import { personalInfo } from '../../data/portfolio';
 
 export default function Footer() {
@@ -49,9 +49,8 @@ export default function Footer() {
         </div>
 
         <div className="mt-8 pt-8 border-t border-gray-800 text-center">
-          <p className="text-sm text-gray-400 flex items-center justify-center gap-1">
-            &copy; {currentYear} {personalInfo.name}. Made with{' '}
-            <Heart size={14} className="text-red-500 fill-current" /> using React & Tailwind CSS
+          <p className="text-sm text-gray-400">
+            &copy; {currentYear} {personalInfo.name}
           </p>
         </div>
       </div>
