@@ -93,6 +93,17 @@ export interface Project {
 export const projects: Project[] = [
   {
     id: 1,
+    title: "GI Marketplace (ArtisanLane)",
+    description:
+      "Built a multi-vendor marketplace for Geographical Indication (GI) tagged products, connecting customers directly with regional artisans. Implemented role-based access for three user types: Admin (platform oversight, merchant and product management), Merchant (store setup, product listings and order handling), and Customer (browsing, product discovery and purchasing). Developed a responsive React storefront showcasing authentic handcrafted goods from across India.",
+    image: "https://images.unsplash.com/photo-1762173886363-de541417e48e?w=600&h=400&fit=crop",
+    techStack: ["React", "React Native", "FastAPI", "GraphQL", "AWS Lambda", "DynamoDB", "Stripe"],
+    githubUrl: "#",
+    liveUrl: "https://artisanlane.in/products",
+    featured: true,
+  },
+  {
+    id: 2,
     title: "Customer Support & Product Management Platform",
     description:
       "Architected and built a multi-business customer support system from concept to production, utilizing an event-driven, serverless backend with FastAPI, AWS Lambda, API Gateway, and DynamoDB. Engineered a responsive React/TypeScript UI with seamless workflow and real-time updates, significantly enhancing agent efficiency.",
@@ -103,7 +114,7 @@ export const projects: Project[] = [
     featured: true,
   },
   {
-    id: 2,
+    id: 3,
     title: "Pharmaceutical (CLM) Application",
     description:
       "Spearheaded the development of a Closed Loop Marketing (CLM) platform, designing responsive React/TypeScript interfaces that improved user engagement by approximately 30%. Implemented robust FastAPI backend services for secure content delivery and analytics tracking. Optimized PostgreSQL database queries, improving data retrieval speed by 40%, handling over 1 million records daily.",
@@ -114,7 +125,7 @@ export const projects: Project[] = [
     featured: true,
   },
   {
-    id: 3,
+    id: 4,
     title: "Student Registration Application (Natyakala)",
     description:
       "Built a complete student registration system using Nest.js and React.js, integrating secure validation workflows for efficient student onboarding. Integrated MongoDB for seamless data storage, reducing initial application load times by 20% and ensuring fast query performance. Collaborated with cross-functional teams to implement robust booking and management features.",
@@ -122,17 +133,6 @@ export const projects: Project[] = [
     techStack: ["Nest.js", "React.js", "REST API", "MongoDB"],
     githubUrl: "#",
     liveUrl: "#",
-    featured: true,
-  },
-  {
-    id: 4,
-    title: "GI Marketplace (ArtisanLane)",
-    description:
-      "Built a multi-vendor marketplace for Geographical Indication (GI) tagged products, connecting customers directly with regional artisans. Implemented role-based access for three user types: Admin (platform oversight, merchant and product management), Merchant (store setup, product listings and order handling), and Customer (browsing, product discovery and purchasing). Developed a responsive React storefront showcasing authentic handcrafted goods from across India.",
-    image: "https://images.unsplash.com/photo-1762173886363-de541417e48e?w=600&h=400&fit=crop",
-    techStack: ["React", "React Native", "FastAPI", "GraphQL", "AWS Lambda", "DynamoDB", "Stripe"],
-    githubUrl: "#",
-    liveUrl: "https://artisanlane.in/products",
     featured: true,
   },
 ];
