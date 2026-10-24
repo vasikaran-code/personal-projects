@@ -5,10 +5,18 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    /* keep anchor targets clear of the fixed navbar */
+    scroll-padding-top: 4rem;
+    -webkit-text-size-adjust: 100%;
   }
 
   body {
     @apply font-sans antialiased;
+    overflow-x: hidden;
+  }
+
+  img {
+    max-width: 100%;
   }
 }
 

@@ -10,15 +10,15 @@ export default function About() {
       title="About Me"
       subtitle="Get to know me better"
     >
-      <div className="grid md:grid-cols-2 gap-12 items-center">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-12 items-center">
         <div className="order-2 md:order-1">
-          <div className="prose prose-lg text-gray-600 space-y-4">
+          <div className="text-base sm:text-lg leading-relaxed text-gray-600 space-y-4">
             {personalInfo.about.split('\n\n').map((paragraph, index) => (
               <p key={index}>{paragraph.trim()}</p>
             ))}
           </div>
 
-          <div className="mt-8 grid sm:grid-cols-3 gap-4">
+          <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 md:grid-cols-1 lg:grid-cols-3 gap-4">
             <div className="flex items-center gap-3 p-4 rounded-lg bg-primary-50 border border-primary-100">
               <MapPin size={20} className="text-primary-600 flex-shrink-0" />
               <span className="text-sm font-medium text-gray-700">{personalInfo.location}</span>
@@ -36,7 +36,7 @@ export default function About() {
 
         <div className="order-1 md:order-2 flex justify-center">
           <div className="relative">
-            <div className="w-64 sm:w-80 aspect-[2/3] rounded-2xl shadow-xl overflow-hidden">
+            <div className="w-56 sm:w-72 lg:w-80 aspect-[2/3] rounded-2xl shadow-xl overflow-hidden">
               <img
                 src={profile}
                 alt={personalInfo.name}

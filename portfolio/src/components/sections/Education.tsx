@@ -15,7 +15,7 @@ export default function Education() {
         {education.map((edu) => (
           <div
             key={edu.id}
-            className="bg-white rounded-xl p-6 shadow-sm border border-amber-100 hover:shadow-md transition-shadow"
+            className="bg-white rounded-xl p-5 sm:p-6 shadow-sm border border-amber-100 hover:shadow-md transition-shadow"
           >
             <div className="flex flex-col sm:flex-row sm:items-center gap-5">
               <div className="flex-shrink-0">
@@ -25,7 +25,7 @@ export default function Education() {
               </div>
 
               <div className="flex-1">
-                <h3 className="text-xl font-bold text-gray-900 mb-1">{edu.institution}</h3>
+                <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-1">{edu.institution}</h3>
                 <p className="text-primary-600 font-medium mb-2">
                   {edu.degree} in {edu.field}
                 </p>

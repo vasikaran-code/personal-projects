@@ -17,7 +17,7 @@ export default function Skills() {
       subtitle="Technologies I work with"
       tone="dark"
     >
-      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 lg:gap-8">
         {skills.map((category, index) => {
           const style = categoryStyles[index % categoryStyles.length];
           const Icon = style.icon;
@@ -26,7 +26,7 @@ export default function Skills() {
             key={category.category}
             className={`bg-gray-800 rounded-xl p-6 border border-gray-700 border-t-4 ${style.border}`}
           >
-            <h3 className="flex items-center gap-3 text-xl font-semibold text-white mb-6 pb-4 border-b border-gray-700">
+            <h3 className="flex items-center gap-3 text-lg sm:text-xl font-semibold text-white mb-6 pb-4 border-b border-gray-700">
               <span className={`inline-flex items-center justify-center w-10 h-10 rounded-lg ${style.tile}`}>
                 <Icon size={20} />
               </span>

@@ -12,7 +12,7 @@ export default function Contact() {
       tone="dark"
     >
       <div className="max-w-4xl mx-auto">
-        <div className="grid md:grid-cols-2 gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-12">
           <div>
             <h3 className="text-xl font-semibold text-white mb-4">Let's Connect</h3>
             <p className="text-gray-300 mb-8">
@@ -25,12 +25,12 @@ export default function Contact() {
                 href={`mailto:${personalInfo.email}`}
                 className="flex items-center gap-4 text-gray-300 hover:text-white transition-colors group"
               >
-                <div className="w-12 h-12 bg-gray-800 rounded-lg flex items-center justify-center group-hover:bg-primary-600 transition-colors">
+                <div className="w-12 h-12 flex-shrink-0 bg-gray-800 rounded-lg flex items-center justify-center group-hover:bg-primary-600 transition-colors">
                   <Mail size={20} />
                 </div>
-                <div>
+                <div className="min-w-0">
                   <p className="text-sm text-gray-400">Email</p>
-                  <p className="font-medium">{personalInfo.email}</p>
+                  <p className="font-medium break-all">{personalInfo.email}</p>
                 </div>
               </a>
 
@@ -40,7 +40,7 @@ export default function Contact() {
                 rel="noopener noreferrer"
                 className="flex items-center gap-4 text-gray-300 hover:text-white transition-colors group"
               >
-                <div className="w-12 h-12 bg-gray-800 rounded-lg flex items-center justify-center group-hover:bg-primary-600 transition-colors">
+                <div className="w-12 h-12 flex-shrink-0 bg-gray-800 rounded-lg flex items-center justify-center group-hover:bg-primary-600 transition-colors">
                   <Linkedin size={20} />
                 </div>
                 <div>
@@ -55,7 +55,7 @@ export default function Contact() {
                 rel="noopener noreferrer"
                 className="flex items-center gap-4 text-gray-300 hover:text-white transition-colors group"
               >
-                <div className="w-12 h-12 bg-gray-800 rounded-lg flex items-center justify-center group-hover:bg-primary-600 transition-colors">
+                <div className="w-12 h-12 flex-shrink-0 bg-gray-800 rounded-lg flex items-center justify-center group-hover:bg-primary-600 transition-colors">
                   <Github size={20} />
                 </div>
                 <div>
@@ -65,7 +65,7 @@ export default function Contact() {
               </a>
 
               <div className="flex items-center gap-4 text-gray-300">
-                <div className="w-12 h-12 bg-gray-800 rounded-lg flex items-center justify-center">
+                <div className="w-12 h-12 flex-shrink-0 bg-gray-800 rounded-lg flex items-center justify-center">
                   <MapPin size={20} />
                 </div>
                 <div>
@@ -76,7 +76,7 @@ export default function Contact() {
             </div>
           </div>
 
-          <div className="bg-gray-800 rounded-xl p-6 border border-gray-700">
+          <div className="bg-gray-800 rounded-xl p-5 sm:p-6 border border-gray-700">
             <h3 className="text-xl font-semibold text-white mb-6">Send a Message</h3>
             <form className="space-y-4">
               <div>

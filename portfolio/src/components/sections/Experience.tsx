@@ -18,26 +18,26 @@ export default function Experience() {
           {experiences.map((exp, index) => (
             <div
               key={exp.id}
-              className={`relative flex flex-col md:flex-row gap-8 ${
+              className={`relative flex flex-col md:flex-row md:gap-8 ${
                 index % 2 === 0 ? 'md:flex-row-reverse' : ''
               }`}
             >
               <div className="absolute left-0 md:left-1/2 top-0 w-4 h-4 bg-primary-600 rounded-full border-4 border-primary-200 shadow transform -translate-x-1/2 md:-translate-x-1/2"></div>
 
-              <div className="flex-1 md:w-1/2"></div>
+              <div className="hidden md:block flex-1 md:w-1/2"></div>
 
               <div
-                className={`flex-1 md:w-1/2 ml-8 md:ml-0 ${
+                className={`flex-1 md:w-1/2 ml-6 sm:ml-8 md:ml-0 ${
                   index % 2 === 0 ? 'md:pr-12' : 'md:pl-12'
                 }`}
               >
-                <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 border-l-4 border-l-primary-600 hover:shadow-md transition-shadow">
+                <div className="bg-white rounded-xl p-5 sm:p-6 shadow-sm border border-gray-100 border-l-4 border-l-primary-600 hover:shadow-md transition-shadow">
                   <div className="flex items-center gap-3 text-primary-600 mb-3">
                     <Building2 size={20} />
                     <span className="font-semibold">{exp.company}</span>
                   </div>
 
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">{exp.role}</h3>
+                  <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-2">{exp.role}</h3>
 
                   <div className="flex flex-wrap gap-4 text-sm text-gray-500 mb-4">
                     <span className="flex items-center gap-1">

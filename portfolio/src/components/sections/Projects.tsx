@@ -13,7 +13,7 @@ export default function Projects() {
       tone="slate"
       wide
     >
-      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
         {projects.map((project) => (
           <Card key={project.id} className="border-t-4 border-t-primary-600">
             <CardImage src={project.image} alt={project.title} />
@@ -21,7 +21,7 @@ export default function Projects() {
               <span className="block text-sm font-mono font-semibold text-amber-600 mb-2">
                 {String(project.id).padStart(2, '0')}
               </span>
-              <div className="flex items-start justify-between gap-4 mb-3">
+              <div className="flex items-start justify-between gap-3 mb-3">
                 <CardTitle>{project.title}</CardTitle>
                 <div className="flex gap-2 flex-shrink-0">
                   <a

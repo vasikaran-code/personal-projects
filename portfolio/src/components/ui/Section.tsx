@@ -41,7 +41,7 @@ export default function Section({
       <div className={`container mx-auto px-4 sm:px-6 lg:px-8 ${wide ? 'max-w-screen-2xl' : 'max-w-6xl'}`}>
         <div className={`text-center ${compact ? 'mb-8' : 'mb-12'}`}>
           <h2
-            className={`font-heading text-3xl md:text-4xl font-bold mb-4 ${
+            className={`font-heading text-2xl sm:text-3xl md:text-4xl font-bold mb-4 ${
               dark ? 'text-white' : 'text-gray-900'
             }`}
           >
@@ -52,7 +52,7 @@ export default function Section({
             <span className="h-1 w-3 bg-amber-400 rounded"></span>
           </div>
           {subtitle && (
-            <p className={`text-lg max-w-2xl mx-auto ${dark ? 'text-gray-300' : 'text-gray-600'}`}>
+            <p className={`text-base sm:text-lg max-w-2xl mx-auto ${dark ? 'text-gray-300' : 'text-gray-600'}`}>
               {subtitle}
             </p>
           )}

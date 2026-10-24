@@ -13,7 +13,7 @@ export default function Certifications() {
         {certifications.map((cert) => (
           <div
             key={cert.id}
-            className="bg-white rounded-xl p-8 shadow-sm border border-gray-100 hover:shadow-md transition-shadow"
+            className="bg-white rounded-xl p-5 sm:p-8 shadow-sm border border-gray-100 hover:shadow-md transition-shadow"
           >
             <div className="flex flex-col sm:flex-row sm:items-start gap-6">
               <div className="flex-shrink-0">
@@ -23,7 +23,7 @@ export default function Certifications() {
               </div>
 
               <div className="flex-1">
-                <h3 className="text-xl font-bold text-gray-900 mb-1">{cert.name}</h3>
+                <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-1">{cert.name}</h3>
                 <p className="text-primary-600 font-medium mb-3">{cert.institution}</p>
 
                 <div className="flex flex-wrap gap-4 text-sm text-gray-500">

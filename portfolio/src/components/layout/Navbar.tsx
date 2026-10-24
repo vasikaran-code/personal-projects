@@ -59,7 +59,7 @@ export default function Navbar() {
             <span className="text-primary-600">.</span>
           </a>
 
-          <div className="relative hidden md:flex items-center gap-1">
+          <div className="relative hidden lg:flex items-center gap-1">
             {navLinks.map((link) => {
               const id = link.href.slice(1);
               const isActive = active === id;
@@ -94,7 +94,7 @@ export default function Navbar() {
 
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden p-2 text-gray-600 hover:text-gray-900"
+            className="lg:hidden p-2 -mr-2 text-gray-600 hover:text-gray-900"
             aria-label="Toggle menu"
           >
             {isOpen ? <X size={24} /> : <Menu size={24} />}
@@ -102,7 +102,7 @@ export default function Navbar() {
         </div>
 
         {isOpen && (
-          <div className="md:hidden py-4 border-t border-gray-100">
+          <div className="lg:hidden py-4 border-t border-gray-100 max-h-[calc(100vh-4rem)] overflow-y-auto">
             <div className="flex flex-col space-y-1">
               {navLinks.map((link) => {
                 const isActive = active === link.href.slice(1);
