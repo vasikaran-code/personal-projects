@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
+import axios from 'axios';
 import { Link, useParams } from 'react-router-dom';
 import { LuArrowLeft, LuCalendarDays, LuMail, LuMapPin, LuPhone, LuSearch, LuUser, LuWallet } from 'react-icons/lu';
 import { Order } from '../types/types';
@@ -45,6 +46,11 @@ const EventDetails = () => {
       const res = await getOrder(id);
       setOrder(res || null);
     } catch (err) {
+      // The API answers 404 for unknown bookings and 403 for other customers' ones.
+      if (axios.isAxiosError(err) && (err.response?.status === 404 || err.response?.status === 403)) {
+        setOrder(null);
+        return;
+      }
       console.error("Error fetching order:", err);
       setError("We couldn't load this booking. Please try again.");
     } finally {

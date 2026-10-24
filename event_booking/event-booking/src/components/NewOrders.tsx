@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react'
 import { toast } from 'react-toastify';
 import { LuCheck, LuSearch, LuX } from 'react-icons/lu';
 import { Order } from '../types/types';
-import { updateOrder } from '../service/_request';
+import { apiErrorMessage, updateOrder } from '../service/_request';
 import { useCustomerMap, useOrders } from '../hooks/useOrders';
 import { statusKey } from '../lib/format';
 import BookingCard, { BookingGridSkeleton } from './common/BookingCard';
@@ -23,7 +23,7 @@ export const ReviewActions = ({ order, onDone }: { order: Order; onDone: () => v
             onDone()
         } catch (err) {
             console.error("Error updating order:", err);
-            toast.error("Couldn't update this booking. Please try again.")
+            toast.error(apiErrorMessage(err, "Couldn't update this booking. Please try again."))
             setBusy(null);
         }
     }

@@ -4,13 +4,14 @@ import { useState } from "react";
 import { protectedRoutes, publicRoutes } from "./Routes/AllRoutes";
 import { ContextValue, Order } from "./types/types";
 import Layout from "./layout";
+import { hasSession } from "./lib/session";
 
 function App() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [orderStatus, setOrderStatus] = useState<string>("pending");
   const [showDetail, setShowDetail] = useState<boolean>(false);
   const [selectState, setSelectState] = useState<any[]>([]);
-  const [isAuth, setIsAuth] = useState<boolean>(() => localStorage.getItem('flameToken') !== null);
+  const [isAuth, setIsAuth] = useState<boolean>(hasSession);
 
   const cntxtValue: ContextValue = {
     orders,

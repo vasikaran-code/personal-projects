@@ -4,7 +4,7 @@ import { LuAlertCircle, LuArrowRight, LuCheck, LuMapPin, LuWallet, LuCalendarDay
 import { AppContext } from '../useContext/Context';
 import { EventInput, Order } from '../types/types';
 import { getId } from '../layout/Header';
-import { createOrder } from '../service/_request';
+import { apiErrorMessage, createOrder } from '../service/_request';
 import { EVENT_TYPES, PACKAGES, findEventType, findPackage } from '../lib/catalog';
 import { formatDate } from '../lib/format';
 import { Field, Spinner, StatusBadge } from './common/ui';
@@ -109,7 +109,7 @@ const OrderInput = () => {
             }
         } catch (err) {
             console.error("Error creating order:", err);
-            setSubmitError("We couldn't send your booking request. Please try again.");
+            setSubmitError(apiErrorMessage(err, "We couldn't send your booking request. Please try again."));
         } finally {
             submittingRef.current = false;
             setSubmitting(false);

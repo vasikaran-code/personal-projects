@@ -1,137 +1,169 @@
-import { Test, TestingModule } from '@nestjs/testing';
+import {
+  ConflictException,
+  ForbiddenException,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
+import { getModelToken } from '@nestjs/sequelize';
+import { Test } from '@nestjs/testing';
+import { PasswordService } from '../auth/password.service';
+import { TokenService } from '../auth/token.service';
+import { Order } from '../orders/models/order.model';
 import { CustomerService } from './customer.service';
 import { Customer } from './entities/customer.entity';
-import { getModelToken } from '@nestjs/sequelize';
-import { NotFoundException } from '@nestjs/common';
 
 describe('CustomerService', () => {
   let service: CustomerService;
-  let customerModel: typeof Customer;
+  let passwords: PasswordService;
+  let tokens: TokenService;
 
-  const mockCustomer = {
-    customer_id: '1',
-    cust_name: 'Test Customer',
-    email: 'test@example.com',
-    password: 'password123',
-    save: jest.fn(),
-    destroy: jest.fn(),
-  };
-
-  const mockCustomerModel = {
+  const customerModel = {
     create: jest.fn(),
     findAll: jest.fn(),
     findOne: jest.fn(),
-    destroy: jest.fn(),
   };
+  const orderModel = { count: jest.fn() };
+
+  const self = { customer_id: 'cust_1', isAdmin: false };
+  const admin = { customer_id: 'cust_admin', isAdmin: true };
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    jest.clearAllMocks();
+    const moduleRef = await Test.createTestingModule({
       providers: [
         CustomerService,
-        {
-          provide: getModelToken(Customer),
-          useValue: mockCustomerModel,
-        },
+        PasswordService,
+        TokenService,
+        { provide: getModelToken(Customer), useValue: customerModel },
+        { provide: getModelToken(Order), useValue: orderModel },
       ],
     }).compile();
-
-    service = module.get<CustomerService>(CustomerService);
-    customerModel = module.get<typeof Customer>(getModelToken(Customer));
-  });
-
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
-
-  it('should be defined', () => {
-    expect(service).toBeDefined();
+    service = moduleRef.get(CustomerService);
+    passwords = moduleRef.get(PasswordService);
+    tokens = moduleRef.get(TokenService);
   });
 
   describe('create', () => {
-    it('should create a new customer', async () => {
-      mockCustomerModel.create.mockResolvedValue(mockCustomer);
-      const dto = {
-        cust_name: 'Test Customer',
-        email: 'test@example.com',
-        password: 'password123',
+    it('stores a hashed password with a server-generated id and no admin rights', async () => {
+      customerModel.findOne.mockResolvedValue(null);
+      customerModel.create.mockImplementation(async (data) => data);
+
+      const created = await service.create({
+        cust_name: 'Ann',
+        email: 'ann@example.com',
+        password: 'secret',
+      });
+
+      expect(created.customer_id).toMatch(/^cust_[0-9a-f]{10}$/);
+      expect(created.isAdmin).toBe(false);
+      expect(created.password).not.toBe('secret');
+      expect(await passwords.verify('secret', created.password)).toBe(true);
+    });
+
+    it('rejects an email that is already registered', async () => {
+      customerModel.findOne.mockResolvedValue({ customer_id: 'cust_9' });
+      await expect(
+        service.create({
+          cust_name: 'Ann',
+          email: 'ann@example.com',
+          password: 'secret',
+        }),
+      ).rejects.toBeInstanceOf(ConflictException);
+      expect(customerModel.create).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('login', () => {
+    it('returns a token for valid credentials', async () => {
+      const stored = {
+        customer_id: 'cust_1',
+        password: await passwords.hash('secret'),
+        save: jest.fn(),
       };
-      const result = await service.create(dto);
-      expect(mockCustomerModel.create).toHaveBeenCalledWith({
-        customer_id: expect.any(Number),
-        ...dto,
+      customerModel.findOne.mockResolvedValue(stored);
+
+      const result = await service.login({
+        email: 'ann@example.com',
+        password: 'secret',
       });
-      expect(result).toEqual(mockCustomer);
+
+      expect(tokens.verify(result.access_token)).toBe('cust_1');
+      expect(stored.save).not.toHaveBeenCalled();
     });
 
-    it('should return null if required fields are missing', async () => {
-      const dto = { cust_name: '', email: '', password: '' };
-      const result = await service.create(dto);
-      expect(result).toBeUndefined();
-    });
-  });
+    it('upgrades a legacy plaintext password after a successful login', async () => {
+      const stored = {
+        customer_id: 'cust_1',
+        password: 'secret',
+        save: jest.fn(),
+      };
+      customerModel.findOne.mockResolvedValue(stored);
 
-  describe('findAll', () => {
-    it('should return all customers', async () => {
-      mockCustomerModel.findAll.mockResolvedValue([mockCustomer]);
-      const result = await service.findAll();
-      expect(mockCustomerModel.findAll).toHaveBeenCalled();
-      expect(result).toEqual([mockCustomer]);
-    });
-  });
+      await service.login({ email: 'ann@example.com', password: 'secret' });
 
-  describe('findOne', () => {
-    it('should return a customer by ID', async () => {
-      mockCustomerModel.findOne.mockResolvedValue(mockCustomer);
-      const result = await service.findOne('1');
-      expect(mockCustomerModel.findOne).toHaveBeenCalledWith({
-        where: { customer_id: '1' },
+      expect(passwords.isHashed(stored.password)).toBe(true);
+      expect(stored.save).toHaveBeenCalled();
+    });
+
+    it('gives the same error for an unknown email and a wrong password', async () => {
+      customerModel.findOne.mockResolvedValue(null);
+      await expect(
+        service.login({ email: 'x@example.com', password: 'secret' }),
+      ).rejects.toThrow(
+        new UnauthorizedException('Incorrect email or password'),
+      );
+      customerModel.findOne.mockResolvedValue({
+        customer_id: 'cust_1',
+        password: 'secret',
+        save: jest.fn(),
       });
-      expect(result).toEqual(mockCustomer);
-    });
-
-    it('should return null if customer is not found', async () => {
-      mockCustomerModel.findOne.mockResolvedValue(null);
-      const result = await service.findOne('2');
-      expect(result).toBeNull();
+      await expect(
+        service.login({ email: 'ann@example.com', password: 'wrong' }),
+      ).rejects.toThrow(
+        new UnauthorizedException('Incorrect email or password'),
+      );
     });
   });
 
-  // describe('update', () => {
-  //   it('should update a customer', async () => {
-  //     // jest.spyOn(service, 'findOne').mockResolvedValue();
-  //     mockCustomer.save.mockResolvedValue(mockCustomer);
-  //     const dto = { cust_name: 'Updated Name' };
-  //     const result = await service.update('1', dto);
-  //     expect(service.findOne).toHaveBeenCalledWith('1');
-  //     expect(mockCustomer.save).toHaveBeenCalled();
-  //     expect(result).toEqual(mockCustomer);
-  //   });
+  describe('access control', () => {
+    it('lets customers read only their own account', async () => {
+      await expect(service.findOne('cust_other', self)).rejects.toBeInstanceOf(
+        ForbiddenException,
+      );
 
-  //   it('should throw NotFoundException if customer is not found', async () => {
-  //     jest.spyOn(service, 'findOne').mockResolvedValue(null);
-  //     await expect(service.update('2', { cust_name: 'Updated Name' })).rejects.toThrow(
-  //       NotFoundException,
-  //     );
-  //   });
-  // });
+      customerModel.findOne.mockResolvedValue(null);
+      await expect(service.findOne('cust_1', self)).rejects.toBeInstanceOf(
+        NotFoundException,
+      );
 
-  // describe('remove', () => {
-  //   it('should remove a customer', async () => {
-  //     mockCustomerModel.findOne.mockResolvedValue(mockCustomer);
-  //     mockCustomerModel.destroy.mockResolvedValue(1);
-  //     const result = await service.remove('1');
-  //     expect(mockCustomerModel.findOne).toHaveBeenCalledWith({
-  //       where: { customer_id: '1' },
-  //     });
-  //     expect(mockCustomerModel.destroy).toHaveBeenCalledWith({
-  //       where: { customer_id: '1' },
-  //     });
-  //     expect(result).toEqual(mockCustomer);
-  //   });
+      customerModel.findOne.mockResolvedValue({ customer_id: 'cust_other' });
+      await expect(service.findOne('cust_other', admin)).resolves.toBeDefined();
+    });
 
-  //   it('should throw NotFoundException if customer is not found', async () => {
-  //     mockCustomerModel.findOne.mockResolvedValue(null);
-  //     await expect(service.remove('2')).rejects.toThrow(NotFoundException);
-  //   });
-  // });
+    it('will not delete an account that has bookings', async () => {
+      customerModel.findOne.mockResolvedValue({
+        customer_id: 'cust_1',
+        destroy: jest.fn(),
+      });
+      orderModel.count.mockResolvedValue(2);
+      await expect(service.remove('cust_1', self)).rejects.toBeInstanceOf(
+        ConflictException,
+      );
+    });
+  });
+
+  it('never serializes the password', () => {
+    const values = {
+      customer_id: 'cust_1',
+      cust_name: 'Ann',
+      email: 'a@b.co',
+      password: 'hash',
+    };
+    const json = Customer.prototype.toJSON.call({ get: () => values });
+    expect(json).toEqual({
+      customer_id: 'cust_1',
+      cust_name: 'Ann',
+      email: 'a@b.co',
+    });
+  });
 });

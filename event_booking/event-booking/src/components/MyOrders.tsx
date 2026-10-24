@@ -3,7 +3,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { LuArrowRight, LuSearch } from 'react-icons/lu';
 import { Order } from '../types/types';
-import { updateOrder } from '../service/_request';
+import { apiErrorMessage, updateOrder } from '../service/_request';
 import { useOrders } from '../hooks/useOrders';
 import { statusKey } from '../lib/format';
 import BookingCard, { BookingGridSkeleton } from './common/BookingCard';
@@ -23,7 +23,7 @@ export const CancelAction = ({ order, onCancelled }: { order: Order; onCancelled
             onCancelled()
         } catch (err) {
             console.error("Error cancelling order:", err);
-            toast.error("Couldn't cancel this booking. Please try again.")
+            toast.error(apiErrorMessage(err, "Couldn't cancel this booking. Please try again."))
             setBusy(false);
             setConfirming(false);
         }

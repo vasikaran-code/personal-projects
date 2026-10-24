@@ -1,6 +1,23 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
+import {
+  AdminOnly,
+  AuthUser,
+  CurrentUser,
+  Public,
+} from '../auth/auth.decorators';
+import { ParseIdPipe } from '../common/parse-id.pipe';
 import { CustomerService } from './customer.service';
 import { CreateCustomerDto } from './dto/create-customer.dto';
+import { LoginCustomerDto } from './dto/login-customer.dto';
 import { UpdateCustomerDto } from './dto/update-customer.dto';
 import { Customer } from './entities/customer.entity';
 
@@ -8,28 +25,41 @@ import { Customer } from './entities/customer.entity';
 export class CustomerController {
   constructor(private readonly customerService: CustomerService) {}
 
+  @Public()
   @Post()
-  async create(@Body() createCustomerDto: CreateCustomerDto):Promise<Customer> {
+  create(@Body() createCustomerDto: CreateCustomerDto): Promise<Customer> {
     return this.customerService.create(createCustomerDto);
   }
 
+  @Public()
+  @Post('login')
+  @HttpCode(200)
+  login(@Body() loginDto: LoginCustomerDto) {
+    return this.customerService.login(loginDto);
+  }
+
+  @AdminOnly()
   @Get()
- async findAll():Promise<Customer[]>  {
+  findAll(): Promise<Customer[]> {
     return this.customerService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.customerService.findOne(id);
+  findOne(@Param('id', ParseIdPipe) id: string, @CurrentUser() user: AuthUser) {
+    return this.customerService.findOne(id, user);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCustomerDto: UpdateCustomerDto) {
-    return this.customerService.update(id, updateCustomerDto);
+  update(
+    @Param('id', ParseIdPipe) id: string,
+    @Body() updateCustomerDto: UpdateCustomerDto,
+    @CurrentUser() user: AuthUser,
+  ) {
+    return this.customerService.update(id, updateCustomerDto, user);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.customerService.remove(id);
+  remove(@Param('id', ParseIdPipe) id: string, @CurrentUser() user: AuthUser) {
+    return this.customerService.remove(id, user);
   }
 }

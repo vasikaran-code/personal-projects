@@ -1,12 +1,11 @@
-import { CustomerModule } from './../customer/customer.module';
 import { Module } from '@nestjs/common';
-import { OrdersService } from './orders.service';
-import { OrdersController } from './orders.controller';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { Order } from './models/order.model';
+import { OrdersController } from './orders.controller';
+import { OrdersService } from './orders.service';
 
 @Module({
-  imports: [SequelizeModule.forFeature([Order]),CustomerModule],
+  imports: [SequelizeModule.forFeature([Order])],
   controllers: [OrdersController],
   providers: [OrdersService],
 })

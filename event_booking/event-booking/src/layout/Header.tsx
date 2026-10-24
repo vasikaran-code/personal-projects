@@ -3,6 +3,7 @@ import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { LuLogOut, LuMenu, LuSearch, LuX } from 'react-icons/lu'
 import { AppContext } from '../useContext/Context'
 import { clearCurrentUser, getId, useCurrentUser } from '../hooks/useCurrentUser'
+import { clearSession } from '../lib/session'
 import { initials } from '../lib/format'
 
 export { getId }
@@ -79,7 +80,7 @@ const Header = () => {
   const links = isAdmin ? adminLinks : customerLinks
 
   const handleLogout = () => {
-    localStorage.removeItem("flameToken")
+    clearSession()
     clearCurrentUser()
     setIsAuthenticated(false)
     navigate("/")

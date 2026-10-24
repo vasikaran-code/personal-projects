@@ -2,7 +2,8 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate } from "react-router-dom";
 import { LuAlertCircle, LuArrowRight, LuCheckCircle2, LuEye, LuEyeOff } from "react-icons/lu";
 import { Customer } from '../types/types';
-import { createCustomer, getCustomers } from '../service/_request';
+import { apiErrorMessage, createCustomer, login } from '../service/_request';
+import { saveSession } from '../lib/session';
 import { AppContext } from '../useContext/Context';
 import { Field, Spinner } from './common/ui';
 import gardenCeremony from '../images/web/garden-ceremony.jpg';
@@ -55,19 +56,12 @@ const Login = () => {
         setLoading(true);
         setError(null);
         try {
-            const customers = await getCustomers();
-            const user = customers.find(
-                (u: Customer) => u.email === loginPage.email && u.password === loginPage.password
-            );
-            if (user) {
-                localStorage.setItem('flameToken', user.customer_id);
-                setIsAuthenticated(true);
-                navigate('/home');
-            } else {
-                setError('Incorrect email or password');
-            }
+            const { access_token, customer } = await login(loginPage.email.trim(), loginPage.password);
+            saveSession(customer.customer_id, access_token);
+            setIsAuthenticated(true);
+            navigate('/home');
         } catch (err) {
-            setError('Login failed. Please try again later.');
+            setError(apiErrorMessage(err, 'Login failed. Please try again later.'));
         } finally {
             setLoading(false);
         }
@@ -77,15 +71,14 @@ const Login = () => {
         setLoading(true);
         setError(null);
         try {
-            const id = "cust_" + Math.random().toString(36).substr(2, 10);
-            const { confirmPwd, ...customer } = loginPage;
-            await createCustomer({ ...customer, cust_name: customer.cust_name.trim(), email: customer.email.trim(), customer_id: id });
+            const { cust_name, email, password } = loginPage;
+            await createCustomer({ cust_name: cust_name.trim(), email: email.trim(), password });
             setMode("login");
             setSubmitted(false);
-            setLoginPage({ ...EMPTY_FORM, email: customer.email.trim() });
+            setLoginPage({ ...EMPTY_FORM, email: email.trim() });
             setNotice("Account created. Sign in with your new details.");
         } catch (err) {
-            setError('Registration failed. Please try again.');
+            setError(apiErrorMessage(err, 'Registration failed. Please try again.'));
         } finally {
             setLoading(false);
         }
