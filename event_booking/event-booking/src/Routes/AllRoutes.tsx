@@ -5,6 +5,7 @@ import Error from "../components/Error";
 import Login from "../components/Login";
 import MyOrders from "../components/MyOrders";
 import ManageOrders from "../components/ManageOrders";
+import EventDetails from "../components/EventDetails";
 
 import Contact from "../components/Contact";
 
@@ -16,6 +17,7 @@ const protectedRoutes = [
     { path: "/orders", component: <ManageOrders /> },
     { path: "/order", component: <OrderInput /> },
     { path: "/myorder", component: <MyOrders /> },
+    { path: "/booking/:id", component: <EventDetails /> },
     { path: "/about", component: <Contact /> }]
 
 const publicRoutes = [

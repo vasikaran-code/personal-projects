@@ -1,5 +1,4 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import "./App.css";
 import { AppContext } from "./useContext/Context";
 import { useState } from "react";
 import { protectedRoutes, publicRoutes } from "./Routes/AllRoutes";

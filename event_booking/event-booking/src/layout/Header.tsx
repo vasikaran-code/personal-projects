@@ -1,72 +1,158 @@
-import { useContext, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { getCustomer } from '../service/_request'
+import React, { useContext, useEffect, useState } from 'react'
+import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
+import { LuLogOut, LuMenu, LuSearch, LuX } from 'react-icons/lu'
 import { AppContext } from '../useContext/Context'
+import { clearCurrentUser, getId, useCurrentUser } from '../hooks/useCurrentUser'
+import { initials } from '../lib/format'
 
-export const getId = () => localStorage.getItem("flameToken")
+export { getId }
+
+const customerLinks = [
+  { to: "/home", label: "Discover" },
+  { to: "/order", label: "Book an event" },
+  { to: "/myorder", label: "My bookings" },
+  { to: "/about", label: "Contact" },
+]
+
+const adminLinks = [
+  { to: "/home", label: "Overview" },
+  { to: "/neworder", label: "Requests" },
+  { to: "/orders", label: "All bookings" },
+]
+
+export const Brand = ({ to = "/home" }: { to?: string }) => (
+  <Link to={to} className="brand" aria-label="VK Weddings home">
+    <span className="brand__mark" aria-hidden="true">VK</span>
+    <span className="brand__text">
+      <span className="brand__name">VK Weddings</span>
+      <span className="brand__tag">Events &amp; venues</span>
+    </span>
+  </Link>
+)
+
+const HeaderSearch = ({ isAdmin, id }: { isAdmin: boolean; id: string }) => {
+  const navigate = useNavigate()
+  const [query, setQuery] = useState("")
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    const q = query.trim()
+    const path = isAdmin ? "/orders" : "/myorder"
+    navigate(q ? `${path}?q=${encodeURIComponent(q)}` : path)
+    setQuery("")
+  }
+
+  return (
+    <form className="header-search field__control" role="search" onSubmit={handleSubmit}>
+      <LuSearch className="field__icon" aria-hidden="true" />
+      <label htmlFor={id} className="visually-hidden">Search bookings</label>
+      <input
+        id={id}
+        type="search"
+        className="input input--with-icon"
+        placeholder={isAdmin ? "Search bookings or customers" : "Search your bookings"}
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+      />
+    </form>
+  )
+}
+
+const AccountSummary = ({ name, isAdmin }: { name?: string; isAdmin: boolean }) => (
+  <>
+    <span className="avatar" aria-hidden="true">{initials(name)}</span>
+    <span className="account__name">
+      <span>{name ?? "Signed in"}</span>
+      <span className="account__role">{isAdmin ? "Administrator" : "Customer"}</span>
+    </span>
+  </>
+)
 
 const Header = () => {
 
   const navigate = useNavigate()
-  const [admin, setAdmin] = useState<boolean>(false)
+  const location = useLocation()
   const { setIsAuthenticated } = useContext(AppContext)
+  const { user, isAdmin } = useCurrentUser()
+  const [menuOpen, setMenuOpen] = useState(false)
+
+  const links = isAdmin ? adminLinks : customerLinks
 
   const handleLogout = () => {
     localStorage.removeItem("flameToken")
+    clearCurrentUser()
     setIsAuthenticated(false)
     navigate("/")
   }
 
   useEffect(() => {
-    const id = getId()
-    if (!id) return
-    const fetchUser = async () => {
-      try {
-        const res = await getCustomer(id);
-        setAdmin(res?.isAdmin ?? false)
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
-    };
-    fetchUser()
-  }, [])
+    setMenuOpen(false)
+  }, [location.pathname, location.search])
+
+  useEffect(() => {
+    if (!menuOpen) return
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setMenuOpen(false)
+    window.addEventListener("keydown", onKey)
+    return () => window.removeEventListener("keydown", onKey)
+  }, [menuOpen])
 
   return (
-    <div >
-      <nav className="navbar navbar-expand-lg " >
-        <div className="container-fluid  pe-3"   >
-          <div className="navbar-brand d-flex  ms-4 p-0">&nbsp; <img src='https://toppng.com/uploads/preview/vk-vk-png-logo-11562915083k8kbfowfmf.png' alt='logo' className='logo'  />
-            {/* <span style={{fontFamily:"monospace",fontSize:"0.8rem"}}> Weddings</span> */}
-          </div>
-          <div>
-            <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-              <span className="navbar-toggler-icon"></span>
-            </button>
+    <header className="site-header">
+      <div className="container site-header__inner">
+        <Brand />
 
-            {admin ?
-              <div className="collapse navbar-collapse text-center" id="navbarNav" >
-                <ul className="navbarNav nav-list d-flex list-unstyled  mb-2  ">
-                  <li className="nav-item "><div className="text-primary ms-3" onClick={() => navigate("/home")} style={{ textDecoration: "none" }}>HOME</div></li>
-                  <li className="nav-item "><div className="text-primary ms-3" onClick={() => navigate("/neworder")} style={{ textDecoration: "none" }}>NEW ORDERS</div></li>
-                  <li className="nav-item "><div className="text-primary ms-3" onClick={() => navigate("/orders")} style={{ textDecoration: "none" }}>ORDERS</div></li>
+        <nav className="site-nav" aria-label="Primary">
+          {links.map((link) => (
+            <NavLink key={link.to} to={link.to} className="site-nav__link">
+              {link.label}
+            </NavLink>
+          ))}
+        </nav>
 
-                </ul>
-                <div className="nav-item btn btn-danger text-center text-light ms-3"><div className="logout " onClick={handleLogout}>Logout</div></div>
-              </div> :
-              <div className="collapse navbar-collapse text-center" id="navbarNav" >
-                <ul className="navbarNav nav-list d-flex list-unstyled  mb-2  ">
-                  <li className="nav-item "><div className="text-primary ms-3" onClick={() => navigate("/home")} style={{ textDecoration: "none" }}>HOME</div></li>
-                  <li className="nav-item "><div className="text-primary ms-3" onClick={() => navigate("/order")} style={{ textDecoration: "none" }}>BOOK NOW</div></li>
-                  <li className="nav-item "><div className="text-primary ms-3" onClick={() => navigate("/myorder")} style={{ textDecoration: "none" }}>MY ORDER</div></li>
-                  <li className="nav-item "><div className="text-primary ms-3" onClick={() => navigate("/about")} style={{ textDecoration: "none" }}>CONTACT</div></li>
-                </ul>
-                <div className="nav-item btn btn-danger text-center text-light ms-3"><div className="logout " onClick={handleLogout}>Logout</div></div>
+        <HeaderSearch isAdmin={isAdmin} id="header-search" />
 
-              </div>}
+        <div className="account">
+          <AccountSummary name={user?.cust_name} isAdmin={isAdmin} />
+          <button type="button" className="icon-btn" onClick={handleLogout} aria-label="Sign out" title="Sign out">
+            <LuLogOut />
+          </button>
+        </div>
+
+        <button
+          type="button"
+          className="icon-btn menu-toggle"
+          aria-expanded={menuOpen}
+          aria-controls="mobile-menu"
+          aria-label={menuOpen ? "Close menu" : "Open menu"}
+          onClick={() => setMenuOpen((open) => !open)}
+        >
+          {menuOpen ? <LuX /> : <LuMenu />}
+        </button>
+      </div>
+
+      {menuOpen && (
+        <div className="mobile-menu" id="mobile-menu">
+          <div className="container">
+            <HeaderSearch isAdmin={isAdmin} id="mobile-search" />
+            <nav className="mobile-menu__nav" aria-label="Mobile">
+              {links.map((link) => (
+                <NavLink key={link.to} to={link.to}>
+                  {link.label}
+                </NavLink>
+              ))}
+            </nav>
+            <div className="mobile-menu__footer">
+              <div className="account">
+                <AccountSummary name={user?.cust_name} isAdmin={isAdmin} />
+              </div>
+              <button type="button" className="btn" onClick={handleLogout}>
+                <LuLogOut /> Sign out
+              </button>
+            </div>
           </div>
         </div>
-      </nav >
-    </div >
+      )}
+    </header>
   )
 }
 
